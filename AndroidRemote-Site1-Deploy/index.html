@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111117">
+  <meta name="description" content="Android remote — تحكم بالرسيفر عبر شبكة Wi-Fi، مع اقتران QR أو كود من 7 أرقام.">
+  <title>Android remote | تحكم بالرسيفر</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101016;--panel:#1c1b24;--panel2:#25232e;--ink:#f4f1fb;--muted:#c5c1d2;--line:#454250;--purple:#9a82f1;--purple2:#c3b4ff;--green:#58d39a}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#29233d 0,transparent 42%),var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1100px,calc(100% - 36px));margin:auto}.bar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:19px}.logo{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#b9a8ff,#6e55c9);color:#201741;font-size:22px}.bar-actions{display:flex;align-items:center;gap:10px}.language,.button{border:1px solid var(--line);border-radius:15px;padding:10px 16px;background:var(--panel2);color:var(--ink);font-weight:700;cursor:pointer;font:inherit}.button.primary{border:0;background:linear-gradient(135deg,#a995ff,#8064db);color:#211640;box-shadow:0 10px 28px #8064db44}.button:hover,.language:hover{filter:brightness(1.12);transform:translateY(-1px)}.hero{padding:74px 0 52px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:44px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;background:#25232e;border:1px solid var(--line);border-radius:30px;color:var(--purple2);font-size:13px}.dot{width:8px;height:8px;border-radius:99px;background:var(--green)}h1{font-size:clamp(38px,6vw,64px);line-height:1.14;margin:20px 0 16px;letter-spacing:-1.6px}.accent{color:var(--purple2)}.intro{font-size:18px;color:var(--muted);max-width:640px;margin:0 0 26px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.hero-actions .button{padding:13px 20px}.fine{font-size:12px;color:#9692a2;margin-top:14px}.remote-card{border:1px solid #ffffff17;background:linear-gradient(160deg,#24222c,#17161d);padding:22px;border-radius:28px;box-shadow:0 25px 70px #0005;transform:rotate(-2deg)}.remote-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.connected{display:flex;align-items:center;gap:8px;color:#d8d3e3;font-size:13px}.receiver-tag{color:var(--purple2);background:#a995ff1b;padding:6px 10px;border-radius:12px;font-size:12px}.touchpad{height:190px;border-radius:23px;background:#17161e;border:1px solid #ffffff12;display:grid;place-content:center;text-align:center;color:var(--muted)}.touchpad .cross{font-size:48px;color:var(--purple2);line-height:1}.tabs{display:flex;justify-content:center;gap:8px;margin-bottom:12px}.tabs span{padding:7px 11px;border-radius:20px;background:#34313f;color:#dfd9ec;font-size:11px}.tabs span:first-child{background:var(--purple);color:#24193f}.keys{display:flex;justify-content:center;gap:11px;margin-top:18px}.key{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:#35333f;font-size:17px}.key.power{background:#d95362}.section{padding:56px 0}.section-title{text-align:center;font-size:30px;margin:0 0 9px}.section-copy{text-align:center;color:var(--muted);max-width:650px;margin:0 auto 30px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature,.app-card,.steps{background:linear-gradient(160deg,#211f29,#191820);border:1px solid #ffffff12;border-radius:22px;padding:22px}.feature h3,.app-card h3{margin:8px 0;font-size:19px}.feature p,.app-card p{margin:0;color:var(--muted);font-size:14px}.feature-icon{font-size:23px;color:var(--purple2)}.apps{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.app-card{display:flex;flex-direction:column;min-height:220px}.app-card .app-icon{width:45px;height:45px;border-radius:15px;display:grid;place-items:center;background:#a995ff20;color:var(--purple2);font-size:22px}.app-card .button{margin-top:auto;align-self:flex-start}.steps{max-width:760px;margin:auto}.step{display:flex;gap:14px;align-items:flex-start;padding:10px 0;color:var(--muted)}.num{flex:none;width:28px;height:28px;border-radius:50%;background:#a995ff22;color:var(--purple2);display:grid;place-items:center;font-size:13px;font-weight:800}.footer{padding:28px 0 36px;border-top:1px solid #ffffff12;color:#aaa5b6;font-size:13px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.modal{position:fixed;inset:0;background:#09080dcc;display:none;align-items:center;justify-content:center;padding:20px;z-index:4}.modal.open{display:flex}.dialog{width:min(620px,100%);border:1px solid #ffffff20;background:#1c1b24;border-radius:26px;padding:25px;box-shadow:0 30px 90px #0009}.dialog-top{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.dialog h2{margin:0 0 6px}.dialog p{margin:0;color:var(--muted)}.close{border:0;background:transparent;color:var(--muted);font-size:25px;cursor:pointer}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.choice{border:1px solid var(--line);border-radius:19px;padding:18px;background:#25232e;display:flex;flex-direction:column;gap:8px}.choice strong{font-size:16px}.choice small{color:var(--muted);min-height:42px}.choice .button{margin-top:4px;text-align:center}.published-note{font-size:12px;color:#a8a3b4;margin-top:17px}
+    .downloader-box{max-width:760px;margin:auto;background:linear-gradient(160deg,#211f29,#191820);border:1px solid #ffffff12;border-radius:22px;padding:22px}.downloader-row{display:flex;gap:10px;align-items:center;margin-top:18px}.downloader-url{min-width:0;flex:1;border:1px solid var(--line);background:#111117;border-radius:13px;padding:12px;color:var(--muted);font:13px ui-monospace,monospace;direction:ltr}.code-pending{color:var(--purple2);font-weight:800}.downloader-help{margin-top:13px;font-size:13px;color:var(--muted)}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:48px;gap:30px}.remote-card{max-width:440px;width:100%;margin:auto;transform:none}.features{grid-template-columns:1fr}.apps{grid-template-columns:1fr}.section{padding:42px 0}.bar{height:66px}.intro{font-size:16px}.brand{font-size:16px}.language{padding:8px 11px}.choices{grid-template-columns:1fr}.choice small{min-height:auto}.downloader-row{align-items:stretch;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="wrap bar">
+    <a class="brand" href="#top"><span class="logo">⌖</span><span>Android remote</span></a>
+    <div class="bar-actions"><button class="language" id="langButton" type="button">English</button><button class="button primary" type="button" data-download>تحميل التطبيق</button></div>
+  </header>
+  <main id="top">
+    <section class="wrap hero">
+      <div>
+        <span class="eyebrow"><i class="dot"></i><span data-ar="ريموت ذكي لشبكتك المنزلية" data-en="A smart remote for your home network">ريموت ذكي لشبكتك المنزلية</span></span>
+        <h1 data-ar="تحكم برسيفرك،<br>بكل <span class='accent'>سهولة</span>." data-en="Control your TV,<br>with <span class='accent'>ease</span>.">تحكم برسيفرك،<br>بكل <span class="accent">سهولة</span>.</h1>
+        <p class="intro" data-ar="تحكم بالرسيفر أو Android TV من جوالك عبر شبكة Wi-Fi. اربط الجهازين بمسح QR أو بإدخال كود من سبعة أرقام، ثم استخدم لوحة اللمس أو أزرار الاتجاهات أو لوحة الأرقام." data-en="Control your receiver or Android TV from your phone over Wi-Fi. Pair both apps with a QR scan or a seven-digit code, then use the touchpad, D-pad, or number pad.">تحكم بالرسيفر أو Android TV من جوالك عبر شبكة Wi-Fi. اربط الجهازين بمسح QR أو بإدخال كود من سبعة أرقام، ثم استخدم لوحة اللمس أو أزرار الاتجاهات أو لوحة الأرقام.</p>
+        <div class="hero-actions"><button class="button primary" type="button" data-download data-ar="تحميل التطبيق" data-en="Download the app">تحميل التطبيق</button><a class="button" href="#idea" data-ar="تعرّف على الفكرة" data-en="How it works">تعرّف على الفكرة</a></div>
+        <div class="fine" data-ar="تطبيقان مستقلان: واحد للجوال وواحد للرسيفر." data-en="Two companion apps: one for your phone and one for your receiver.">تطبيقان مستقلان: واحد للجوال وواحد للرسيفر.</div>
+      </div>
+      <div class="remote-card" aria-label="Remote control preview">
+        <div class="remote-head"><strong>Android remote</strong><span class="receiver-tag">Android TV</span></div>
+        <div class="connected"><i class="dot"></i><span data-ar="متصل بالشبكة المحلية" data-en="Connected to your local network">متصل بالشبكة المحلية</span></div>
+        <div class="tabs" style="margin-top:15px"><span data-ar="لوحة لمس" data-en="Touchpad">لوحة لمس</span><span>D-Pad</span><span data-ar="أرقام" data-en="Numbers">أرقام</span></div>
+        <div class="touchpad"><span class="cross">⌖</span><span data-ar="اسحب للتنقل · اضغط للاختيار" data-en="Swipe to navigate · tap to select">اسحب للتنقل · اضغط للاختيار</span></div>
+        <div class="keys"><span class="key">⌂</span><span class="key">123</span><span class="key power">⏻</span><span class="key">↶</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="idea"><div class="wrap">
+      <h2 class="section-title" data-ar="فكرة التطبيق" data-en="The idea">فكرة التطبيق</h2>
+      <p class="section-copy" data-ar="نظام بسيط من تطبيقين يتواصلان على شبكة Wi-Fi نفسها. تطبيق الجوال يرسل الأوامر، وتطبيق الرسيفر يستقبلها وينفذها." data-en="A simple two-app system on the same Wi-Fi network. The phone sends commands and the receiver app carries them out.">نظام بسيط من تطبيقين يتواصلان على شبكة Wi-Fi نفسها. تطبيق الجوال يرسل الأوامر، وتطبيق الرسيفر يستقبلها وينفذها.</p>
+      <div class="features">
+        <article class="feature"><span class="feature-icon">⌖</span><h3 data-ar="تحكم من الجوال" data-en="Control from your phone">تحكم من الجوال</h3><p data-ar="لوحة لمس، D-Pad، أزرار صوت وقنوات، ولوحة أرقام. اكتشف الرسيفر على الشبكة أو اربطه بكود." data-en="Touchpad, D-Pad, volume and channel keys, plus a number pad. Discover your receiver or pair it with a code.">لوحة لمس، D-Pad، أزرار صوت وقنوات، ولوحة أرقام. اكتشف الرسيفر على الشبكة أو اربطه بكود.</p></article>
+        <article class="feature"><span class="feature-icon">▣</span><h3 data-ar="اتصال مباشر" data-en="Direct connection">اتصال مباشر</h3><p data-ar="امسح رمز QR أو اكتب كود الاقتران المكوّن من 7 أرقام. يعمل الاتصال داخل شبكة المنزل المحلية." data-en="Scan the QR code or enter the 7-digit pairing code. The connection stays on your local home network.">امسح رمز QR أو اكتب كود الاقتران المكوّن من 7 أرقام. يعمل الاتصال داخل شبكة المنزل المحلية.</p></article>
+        <article class="feature"><span class="feature-icon">♫</span><h3 data-ar="وسائط الشاشة" data-en="Screen and media">وسائط الشاشة</h3><p data-ar="أرسل ملفات وصورًا وفيديوهات، والتقط معاينة للشاشة عبر التطبيقين. يمكنك إبقاء المعاينة في نافذة عائمة." data-en="Send files, photos, and videos, and preview the receiver screen over the paired apps. Keep the preview in a floating window.">أرسل ملفات وصورًا وفيديوهات، والتقط معاينة للشاشة عبر التطبيقين. يمكنك إبقاء المعاينة في نافذة عائمة.</p></article>
+      </div>
+    </div></section>
+
+    <section class="section" id="downloads"><div class="wrap">
+      <h2 class="section-title" data-ar="اختر التطبيق المناسب" data-en="Choose your app">اختر التطبيق المناسب</h2>
+      <p class="section-copy" data-ar="ثبّت تطبيق الرسيفر أولًا، ثم حمّل تطبيق التحكم على جوالك." data-en="Install the receiver app first, then get the controller for your phone.">ثبّت تطبيق الرسيفر أولًا، ثم حمّل تطبيق التحكم على جوالك.</p>
+      <div class="apps">
+        <article class="app-card"><span class="app-icon">⌖</span><h3>Android remote</h3><p data-ar="تطبيق الهاتف للتحكم، اكتشاف الأجهزة، إرسال الملفات ومعاينة شاشة الرسيفر." data-en="The phone controller for discovery, remote commands, file transfer, and receiver screen preview.">تطبيق الهاتف للتحكم، اكتشاف الأجهزة، إرسال الملفات ومعاينة شاشة الرسيفر.</p><a class="button primary download-link" href="../ReceiverControl-Controller.apk" download data-ar="تحميل تطبيق الجوال" data-en="Download phone app">تحميل تطبيق الجوال</a></article>
+        <article class="app-card"><span class="app-icon">▣</span><h3>Android TV responsiveness</h3><p data-ar="التطبيق المرافق الذي يعمل على Android TV أو الرسيفر ويستقبل أوامر الجوال." data-en="The companion app for Android TV or your receiver. It receives commands from your phone.">التطبيق المرافق الذي يعمل على Android TV أو الرسيفر ويستقبل أوامر الجوال.</p><a class="button primary download-link" href="../ReceiverControl-Receiver.apk" download data-ar="تحميل تطبيق الرسيفر" data-en="Download receiver app">تحميل تطبيق الرسيفر</a></article>
+      </div>
+    </div></section>
+
+    <section class="section" id="downloader"><div class="wrap">
+      <h2 class="section-title" data-ar="التثبيت عبر Downloader" data-en="Install with Downloader">التثبيت عبر Downloader</h2>
+      <p class="section-copy" data-ar="افتح Downloader على الرسيفر، وأدخل الرابط المباشر أو الكود الرقمي أدناه." data-en="Open Downloader on your receiver and enter the direct link or numeric code below.">افتح Downloader على الرسيفر، وأدخل الرابط المباشر أو الكود الرقمي أدناه.</p>
+      <div class="downloader-box">
+        <strong data-ar="رابط تطبيق الرسيفر" data-en="Receiver app URL">رابط تطبيق الرسيفر</strong>
+        <div class="downloader-help" data-ar="انسخه واكتبه في خانة URL داخل Downloader." data-en="Copy it into the URL field in Downloader.">انسخه واكتبه في خانة URL داخل Downloader.</div>
+        <div class="downloader-row"><input class="downloader-url" id="receiverApkUrl" readonly aria-label="Receiver APK URL"><button class="button" id="copyReceiverApkUrl" type="button" data-ar="نسخ الرابط" data-en="Copy link">نسخ الرابط</button></div>
+        <p class="downloader-help"><span data-ar="كود Downloader الرقمي:" data-en="Numeric Downloader code:">كود Downloader الرقمي:</span> <span class="code-pending" id="downloaderCode" data-ar="يُضاف بعد نشر الموقع" data-en="Added after publishing">يُضاف بعد نشر الموقع</span></p>
+      </div>
+    </div></section>
+
+    <section class="section"><div class="wrap"><h2 class="section-title" data-ar="ابدأ بثلاث خطوات" data-en="Start in three steps">ابدأ بثلاث خطوات</h2><div class="steps">
+      <div class="step"><b class="num">1</b><span data-ar="ثبّت Android TV responsiveness على الرسيفر وافتح خادم الاتصال." data-en="Install Android TV responsiveness on the receiver and start its connection service.">ثبّت Android TV responsiveness على الرسيفر وافتح خادم الاتصال.</span></div>
+      <div class="step"><b class="num">2</b><span data-ar="تأكد أن الجهازين على شبكة Wi-Fi نفسها، ثم امسح QR أو أدخل IP وكود الرسيفر ذي 7 أرقام." data-en="Put both devices on the same Wi-Fi, then scan the QR code or enter the receiver IP and 7-digit code.">تأكد أن الجهازين على شبكة Wi-Fi نفسها، ثم امسح QR أو أدخل IP وكود الرسيفر ذي 7 أرقام.</span></div>
+      <div class="step"><b class="num">3</b><span data-ar="افتح Android remote واستخدم الريموت أو الوسائط." data-en="Open Android remote and use the remote or media tools.">افتح Android remote واستخدم الريموت أو الوسائط.</span></div>
+    </div></div></section>
+  </main>
+  <footer class="wrap footer"><span>Android remote · Android TV responsiveness</span><span data-ar="يعمل التحكم عبر شبكة Wi-Fi المحلية." data-en="Control runs over your local Wi-Fi network.">يعمل التحكم عبر شبكة Wi-Fi المحلية.</span></footer>
+
+  <div class="modal" id="downloadModal" role="dialog" aria-modal="true" aria-labelledby="downloadTitle">
+    <div class="dialog"><div class="dialog-top"><div><h2 id="downloadTitle" data-ar="أي تطبيق تريد تحميله؟" data-en="Which app do you need?">أي تطبيق تريد تحميله؟</h2><p data-ar="اختر نسخة الجوال أو التطبيق المرافق للرسيفر." data-en="Choose the phone controller or the receiver companion app.">اختر نسخة الجوال أو التطبيق المرافق للرسيفر.</p></div><button class="close" id="closeModal" aria-label="Close">×</button></div>
+      <div class="choices">
+        <div class="choice"><strong>Android remote</strong><small data-ar="للجوال · تحكم واكتشاف ووسائط" data-en="Phone · remote, discovery, and media">للجوال · تحكم واكتشاف ووسائط</small><a class="button primary download-link" href="../ReceiverControl-Controller.apk" download data-ar="تحميل تطبيق الجوال" data-en="Download phone app">تحميل تطبيق الجوال</a></div>
+        <div class="choice"><strong>Android TV responsiveness</strong><small data-ar="للرسيفر أو Android TV" data-en="Receiver or Android TV">للرسيفر أو Android TV</small><a class="button primary download-link" href="../ReceiverControl-Receiver.apk" download data-ar="تحميل تطبيق الرسيفر" data-en="Download receiver app">تحميل تطبيق الرسيفر</a></div>
+      </div>
+      <div class="published-note" data-ar="ملفات APK موجودة بجانب مجلد الموقع في الحزمة." data-en="The APK files are placed next to the website folder in the project package.">ملفات APK موجودة بجانب مجلد الموقع في الحزمة.</div>
+    </div>
+  </div>
+  <script>
+    const modal=document.getElementById('downloadModal');
+    const apkPrefix=location.pathname.includes('/website/')||location.pathname.includes('/android_asset/site/')?'../':'./';
+    document.querySelectorAll('.download-link').forEach(link=>{link.href=apkPrefix+link.href.split('/').pop()});
+    const receiverApkUrl=new URL(apkPrefix+'ReceiverControl-Receiver.apk',location.href).href;
+    document.getElementById('receiverApkUrl').value=receiverApkUrl;
+    document.getElementById('copyReceiverApkUrl').addEventListener('click',async()=>{
+      const field=document.getElementById('receiverApkUrl');
+      try{await navigator.clipboard.writeText(field.value)}catch(_){field.focus();field.select();document.execCommand('copy')}
+      document.getElementById('copyReceiverApkUrl').textContent=english?'Copied':'تم النسخ';
+    });
+    if(location.pathname.includes('/android_asset/site/'))document.querySelector('.published-note').textContent='هذه معاينة محلية للموقع؛ روابط تنزيل APK تعمل بعد نشر الموقع بجانب ملفي التطبيق.';
+    const closeModal=()=>modal.classList.remove('open');
+    document.querySelectorAll('[data-download]').forEach(button=>button.addEventListener('click',()=>modal.classList.add('open')));
+    document.getElementById('closeModal').addEventListener('click',closeModal);
+    modal.addEventListener('click',event=>{if(event.target===modal)closeModal()});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape')closeModal()});
+    let english=false;
+    document.getElementById('langButton').addEventListener('click',()=>{
+      english=!english;document.documentElement.lang=english?'en':'ar';document.documentElement.dir=english?'ltr':'rtl';
+      document.getElementById('langButton').textContent=english?'العربية':'English';
+      document.querySelectorAll('[data-ar][data-en]').forEach(element=>{element.innerHTML=element.dataset[english?'en':'ar']});
+    });
+  </script>
+</body>
+</html>
