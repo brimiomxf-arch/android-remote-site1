@@ -60,8 +60,8 @@
       <h2 class="section-title" data-ar="التثبيت عبر Downloader" data-en="Install with Downloader">التثبيت عبر Downloader</h2>
       <p class="section-copy" data-ar="افتح Downloader على الرسيفر، وأدخل الرابط المباشر أو الكود الرقمي أدناه." data-en="Open Downloader on your receiver and enter the direct link or numeric code below.">افتح Downloader على الرسيفر، وأدخل الرابط المباشر أو الكود الرقمي أدناه.</p>
       <div class="downloader-box">
-        <strong data-ar="رابط تطبيق الرسيفر" data-en="Receiver app URL">رابط تطبيق الرسيفر</strong>
-        <div class="downloader-help" data-ar="انسخه واكتبه في خانة URL داخل Downloader." data-en="Copy it into the URL field in Downloader.">انسخه واكتبه في خانة URL داخل Downloader.</div>
+        <strong data-ar="رابط Downloader لتطبيق الرسيفر" data-en="Downloader URL for receiver app">رابط Downloader لتطبيق الرسيفر</strong>
+        <div class="downloader-help" data-ar="انسخ الرابط والصقه في خانة URL داخل Downloader أو أدخل الكود 9187062." data-en="Paste this link into Downloader, or enter code 9187062.">انسخ الرابط والصقه في خانة URL داخل Downloader أو أدخل الكود 9187062.</div>
         <div class="downloader-row"><input class="downloader-url" id="receiverApkUrl" readonly aria-label="Receiver APK URL"><button class="button" id="copyReceiverApkUrl" type="button" data-ar="نسخ الرابط" data-en="Copy link">نسخ الرابط</button></div>
         <p class="downloader-help"><span data-ar="كود Downloader الرقمي:" data-en="Numeric Downloader code:">كود Downloader الرقمي:</span> <span class="code-pending" id="downloaderCode" data-ar="9187062" data-en="9187062">9187062</span></p>
       </div>
@@ -88,7 +88,7 @@
     const modal=document.getElementById('downloadModal');
     const apkPrefix=location.pathname.includes('/website/')||location.pathname.includes('/android_asset/site/')?'../':'./';
     document.querySelectorAll('.download-link').forEach(link=>{link.href=apkPrefix+link.href.split('/').pop()});
-    const receiverApkUrl=new URL(apkPrefix+'ReceiverControl-Receiver.apk',location.href).href;
+    const receiverApkUrl='http://aftv.news/9187062';
     document.getElementById('receiverApkUrl').value=receiverApkUrl;
     document.getElementById('copyReceiverApkUrl').addEventListener('click',async()=>{
       const field=document.getElementById('receiverApkUrl');
