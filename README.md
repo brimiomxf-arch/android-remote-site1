@@ -3,8 +3,6 @@
 مشروع أندرويد أصلي بـ Kotlin يتضمن تطبيق الهاتف **Android remote** والتطبيق المرافق **Android TV responsiveness**.
 
 - [افتح الموقع](https://brimiomxf-arch.github.io/android-remote-site1/)
-- [شرح الاتصال والتعديل بالعربية PDF](AndroidRemote-Site1-Deploy/AndroidRemote-Guide.pdf)
-- [حزمة مصدر Android Studio والواجهة والموقع](AndroidRemote-Site1-Deploy/AndroidRemote-Source.zip)
 - [استعراض ملفات المصدر في المستودع](ReceiverControlAndroid/)
 
 التحكم الأساسي يتصل مباشرةً بأجهزة Android TV المتوافقة عبر Android TV Remote ولا يحتاج التطبيق المرافق. إدارة التطبيقات والملفات ولقطات الشاشة تتطلب Android TV responsiveness على الرسيفر أو ADB.
