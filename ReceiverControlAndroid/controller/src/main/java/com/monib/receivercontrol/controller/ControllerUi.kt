@@ -638,6 +638,15 @@ private fun DevicesPage(
                 OutlinedTextField(value = state.pairingHost, onValueChange = onManualHost, label = { Text("IP") }, placeholder = { Text("192.168.1.20") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
                 if (state.pairingProtocol == ReceiverDevice.ANDROID_TV_REMOTE) {
                     Text(loc(ar, "لا يحتاج هذا المسار تثبيت تطبيق على التلفاز. اختر جهازاً مكتشفاً أو أدخل IP، ثم وافق على الاقتران في التلفاز.", "This path needs no TV app. Choose a discovered device or enter its IP, then approve pairing on the TV."), color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
+                    val nativeServiceFound = state.devices.any { it.host == state.pairingHost && it.protocol == ReceiverDevice.ANDROID_TV_REMOTE }
+                    val companionServiceFound = state.devices.any { it.host == state.pairingHost && it.protocol == ReceiverDevice.RECEIVER_CONTROL }
+                    if (state.pairingHost.isNotBlank() && companionServiceFound && !nativeServiceFound) {
+                        Text(
+                            loc(ar, "هذا الجهاز اكتُشف كتطبيق رسيفر فقط. استخدم «تطبيق الرسيفر»؛ الاتصال المباشر يحتاج خدمة Android TV Remote على الجهاز.", "This device was found as a receiver companion only. Use Receiver app; direct pairing requires Android TV Remote on the device."),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                     if (!state.androidTvPairingStarted) {
                         Button(onClick = { onStartAndroidTvPairing(state.pairingHost) }, modifier = Modifier.fillMaxWidth(), enabled = state.pairingHost.isNotBlank()) {
                             Text(loc(ar, "ابدأ الاقتران على التلفاز", "Start pairing on TV"))

@@ -107,8 +107,20 @@ class MainActivity : ComponentActivity() {
                 onManualHost = { ui = ui.copy(pairingHost = it) },
                 onPairCodeInput = { input ->
                     val code = if (ui.pairingProtocol == ReceiverDevice.ANDROID_TV_REMOTE) {
-                        input.filter { it.isDigit() || it.uppercaseChar() in 'A'..'F' }.uppercase().take(6)
-                    } else input.filter(Char::isDigit).take(7)
+                        input.mapNotNull { character ->
+                            val digit = Character.digit(character, 10)
+                            when {
+                                digit in 0..9 -> ('0'.code + digit).toChar()
+                                character.uppercaseChar() in 'A'..'F' -> character.uppercaseChar()
+                                else -> null
+                            }
+                        }.joinToString("").take(6)
+                    } else {
+                        input.mapNotNull { character ->
+                            val digit = Character.digit(character, 10)
+                            if (digit in 0..9) ('0'.code + digit).toChar() else null
+                        }.joinToString("").take(7)
+                    }
                     ui = ui.copy(pairingCodeInput = code)
                 },
                 onSendKey = ::sendRemoteKey,
@@ -280,10 +292,27 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onError(message: String) = runOnUiThread {
+            val refused = message.contains("ECONNREFUSED", ignoreCase = true) ||
+                message.contains("failed to connect", ignoreCase = true)
+            val companionOnly = ui.devices.any { it.host == host && it.protocol == ReceiverDevice.RECEIVER_CONTROL } &&
+                ui.devices.none { it.host == host && it.protocol == ReceiverDevice.ANDROID_TV_REMOTE }
+            val userMessage = when {
+                refused && companionOnly -> loc(
+                    ui.language,
+                    "هذا الجهاز ظاهر كتطبيق رسيفر، لكنه رفض اتصال Android TV المباشر على المنفذ 6467. اختر «تطبيق الرسيفر» وأدخل الكود ذي 7 أرقام. لا يعمل الاتصال المباشر إلا إذا كان Android TV Remote متاحًا على الجهاز.",
+                    "This device was found as a receiver companion, but it refused direct Android TV Remote on port 6467. Choose Receiver app and enter its 7-digit code. Direct pairing requires Android TV Remote on the device."
+                )
+                refused -> loc(
+                    ui.language,
+                    "رفض الجهاز اتصال Android TV المباشر على المنفذ 6467. تأكد أن الجهاز يدعم خدمة Android TV Remote؛ إذا كان جهاز رسيفر عاديًا فاستخدم تطبيق الرسيفر أو ADB.",
+                    "The device refused Android TV Remote on port 6467. Confirm it supports Android TV Remote; for a regular receiver, use the companion app or ADB."
+                )
+                else -> message.ifBlank { loc(ui.language, "تعذر الاقتران. تحقق من الرمز الظاهر على التلفاز وأعد المحاولة.", "Pairing failed. Check the code shown on the TV and try again.") }
+            }
             ui = ui.copy(
                 androidTvPairingStarted = false,
                 androidTvAwaitingCode = false,
-                status = message.ifBlank { loc(ui.language, "تعذر الاتصال بالتلفاز. تحقق من الشبكة والاقتران.", "Could not connect to the TV. Check the network and pairing.") },
+                status = userMessage,
                 success = false
             )
         }

@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -105,24 +104,28 @@ public class PairingSession {
     }
 
     private void createCodeSecret(String code) {
-        code = code.substring(2);
+        if (code == null || !code.matches("(?i)[0-9a-f]{6}")) {
+            throw new IllegalArgumentException("رمز Android TV يجب أن يتكون من 6 خانات hex.");
+        }
         PairingChallengeResponse pairingChallengeResponse = new PairingChallengeResponse(
                 Utils.getLocalCert(mSslSocket.getSession()), Utils.getPeerCert(mSslSocket.getSession()));
-        byte[] secret = Utils.hexStringToBytes(code);
-        System.out.println(Arrays.toString(secret));
+        // The six hex symbols are one check byte followed by a two-byte nonce.
+        // Hash the certificates and nonce, then compare the first hash byte with
+        // the first two symbols. The old checkGamma path treated part of the
+        // nonce as a second checksum and rejected valid TV codes.
+        byte[] expectedCheck = Utils.hexStringToBytes(code.substring(0, 2));
+        byte[] nonce = Utils.hexStringToBytes(code.substring(2));
+        byte[] pairingSecret;
         try {
-            pairingChallengeResponse.checkGamma(secret);
+            pairingSecret = pairingChallengeResponse.getAlpha(nonce);
         } catch (PairingException e) {
             throw new RuntimeException(e);
         }
-        byte[] pairingChallengeResponseAlpha;
-        try {
-            pairingChallengeResponseAlpha = pairingChallengeResponse.getAlpha(secret);
-        } catch (PairingException e) {
-            throw new RuntimeException(e);
+        if (pairingSecret.length == 0 || pairingSecret[0] != expectedCheck[0]) {
+            throw new IllegalArgumentException("رمز الاقتران غير صحيح أو انتهت صلاحيته. أدخل الرمز الحالي الظاهر على التلفاز.");
         }
         Pairingmessage.PairingMessage secretMessageProto = new PairingMessageManager()
-                .createSecretMessageProto(pairingChallengeResponseAlpha);
+                .createSecretMessageProto(pairingSecret);
         try {
             mMessagesQueue.put(secretMessageProto);
         } catch (InterruptedException e) {

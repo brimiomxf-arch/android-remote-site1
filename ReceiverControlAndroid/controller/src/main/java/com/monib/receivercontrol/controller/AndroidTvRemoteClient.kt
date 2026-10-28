@@ -68,7 +68,7 @@ class AndroidTvRemoteClient(context: Context) {
         } catch (error: Exception) {
             pairingSession = null
             runCatching { pending.abort() }
-            throw IllegalArgumentException("رفض التلفاز رمز الاقتران. أعد بدء الاقتران واكتب الرمز الجديد الظاهر على الشاشة.", error)
+            throw IllegalArgumentException("رمز الاقتران غير صحيح أو انتهت صلاحيته. ابدأ اقترانًا جديدًا وأدخل الرمز الظاهر على التلفاز.", error)
         }
     }
 
