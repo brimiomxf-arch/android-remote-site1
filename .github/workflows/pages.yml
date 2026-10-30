@@ -30,14 +30,19 @@ jobs:
           java-version: '17'
           cache: gradle
       - name: Add Android SDK tools to PATH
-        run: echo "$ANDROID_HOME/cmdline-tools/16.0/bin" >> "$GITHUB_PATH"
+        run: |
+          echo "$ANDROID_HOME/cmdline-tools/16.0/bin" >> "$GITHUB_PATH"
       - name: Accept Android SDK licenses
-        run: yes | "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" --licenses
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" --licenses
       - name: Install Android 37 platform
-        run: "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" "platforms;android-37"
+        run: |
+          "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" "platforms;android-37"
       - name: Build phone controller APK
         working-directory: ReceiverControlAndroid
-        run: ./gradlew :controller:assembleDebug
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :controller:assembleDebug
       - name: Put current phone APK on the website
         run: cp ReceiverControlAndroid/controller/build/outputs/apk/debug/controller-debug.apk AndroidRemote-Site1-Deploy/ReceiverControl-Controller.apk
       - name: Configure GitHub Pages
