@@ -52,6 +52,9 @@ data class ControllerState(
     val pairingProtocol: String = ReceiverDevice.RECEIVER_CONTROL,
     val androidTvPairingStarted: Boolean = false,
     val androidTvAwaitingCode: Boolean = false,
+    val urtvHost: String = "",
+    val urtvConnecting: Boolean = false,
+    val urtvError: String? = null,
     val adbHost: String = "",
     val adbPort: String = "5555",
     val adbConnected: Boolean = false,
@@ -105,6 +108,18 @@ class MainActivity : ComponentActivity() {
                 onQrScan = ::handleQrScan,
                 onScannerVisibility = { ui = ui.copy(showQrScanner = it) },
                 onManualHost = { ui = ui.copy(pairingHost = it) },
+                onUrTvHost = { input ->
+                    val host = input.mapNotNull { character ->
+                        val digit = Character.digit(character, 10)
+                        when {
+                            digit in 0..9 -> ('0'.code + digit).toChar()
+                            character == '.' -> '.'
+                            else -> null
+                        }
+                    }.joinToString("").take(15)
+                    ui = ui.copy(urtvHost = host, urtvError = null)
+                },
+                onConnectUrTv = ::connectUrTv,
                 onPairCodeInput = { input ->
                     val code = if (ui.pairingProtocol == ReceiverDevice.ANDROID_TV_REMOTE) {
                         input.mapNotNull { character ->
@@ -198,8 +213,49 @@ class MainActivity : ComponentActivity() {
             macros = macros,
             adbHost = prefs.getString("adb.host", "").orEmpty(),
             adbPort = prefs.getInt("adb.port", 5555).toString(),
+            urtvHost = prefs.getString("urtv.host", "").orEmpty(),
             favorites = savedFavorites
         )
+    }
+
+    private fun connectUrTv() {
+        if (ui.urtvConnecting) return
+        val host = ui.urtvHost.trim()
+        prefs.edit().putString("urtv.host", host).apply()
+        ui = ui.copy(
+            urtvConnecting = true,
+            urtvError = null,
+            status = loc(ui.language, "جارٍ البحث عن ريموت UrTV على التلفاز…", "Looking for the UrTV remote on the TV…"),
+            success = null
+        )
+        lifecycleScope.launch {
+            try {
+                val url = UrTvPhoneDiscovery.findPageUrl(host)
+                if (url == null) {
+                    val message = loc(
+                        ui.language,
+                        "لم أجد خدمة UrTV على هذا العنوان. افتح على التلفاز UrTV ← «تحكم من الجوال» ← «تشغيل»، واترك الشاشة مفتوحة، ثم أعد المحاولة.",
+                        "No UrTV phone service was found. On the TV, open UrTV → Phone control → Start, leave that screen open, then try again."
+                    )
+                    ui = ui.copy(urtvConnecting = false, urtvError = message, status = message, success = false)
+                    return@launch
+                }
+                ui = ui.copy(
+                    urtvConnecting = false,
+                    status = loc(ui.language, "تم العثور على ريموت UrTV. أكمل الاقتران الذي يعرضه التلفاز.", "UrTV remote found. Complete the pairing shown by the TV."),
+                    success = true
+                )
+                startActivity(Intent(this@MainActivity, UrTvRemoteActivity::class.java).putExtra(UrTvRemoteActivity.EXTRA_URL, url))
+            } catch (error: kotlinx.coroutines.CancellationException) {
+                throw error
+            } catch (error: IllegalArgumentException) {
+                val message = error.message ?: loc(ui.language, "أدخل عنوان IP محليًا صالحًا.", "Enter a valid local IP address.")
+                ui = ui.copy(urtvConnecting = false, urtvError = message, status = message, success = false)
+            } catch (error: Exception) {
+                val message = loc(ui.language, "تعذر البحث عن ريموت UrTV. تأكد من اتصال Wi-Fi وأعد المحاولة.", "Could not search for the UrTV remote. Check Wi-Fi and try again.")
+                ui = ui.copy(urtvConnecting = false, urtvError = message, status = message, success = false)
+            }
+        }
     }
 
     private fun selectDiscoveredDevice(device: ReceiverDevice) {

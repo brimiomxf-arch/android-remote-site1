@@ -142,6 +142,8 @@ fun ReceiverControlApp(
     onQrScan: (String) -> Unit,
     onScannerVisibility: (Boolean) -> Unit,
     onManualHost: (String) -> Unit,
+    onUrTvHost: (String) -> Unit,
+    onConnectUrTv: () -> Unit,
     onPairCodeInput: (String) -> Unit,
     onSendKey: (String) -> Unit,
     onAdbHost: (String) -> Unit,
@@ -277,7 +279,7 @@ fun ReceiverControlApp(
                                 "devices" -> DevicesPage(state, onDiscover, onPairPrompt, onManualHost, onPairCodeInput, onPair, onPairingProtocol, onStartAndroidTvPairing, onSelectProfile, onDeleteProfile, {
                                     if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) onScannerVisibility(true)
                                     else cameraPermission.launch(Manifest.permission.CAMERA)
-                                })
+                                }, onUrTvHost, onConnectUrTv)
                                 "macros" -> MacrosPage(state, onSaveMacro, onDeleteMacro, onRunMacro)
                                 "apps" -> AppsPage(state, onRefreshApps, onLaunchApp, { uninstallTarget = it })
                                 "media" -> MediaPage(state, onRefreshScreen, onScreenLiveChange, onPip, onCastUrl) { openFile.launch(arrayOf("*/*")) }
@@ -569,7 +571,9 @@ private fun DevicesPage(
     onStartAndroidTvPairing: (String) -> Unit,
     onSelectProfile: (SavedReceiver) -> Unit,
     onDeleteProfile: (SavedReceiver) -> Unit,
-    onScan: () -> Unit
+    onScan: () -> Unit,
+    onUrTvHost: (String) -> Unit,
+    onConnectUrTv: () -> Unit
 ) {
     val ar = state.language
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -671,6 +675,40 @@ private fun DevicesPage(
                         Text(loc(ar, "اتصال بالتطبيق المرافق", "Connect to companion app"))
                     }
                 }
+            }
+        }
+        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
+            Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(loc(ar, "ريموت UrTV", "UrTV remote"), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    loc(
+                        ar,
+                        "يتطلب تثبيت UrTV على التلفاز وتشغيل «تحكم من الجوال». اكتب IP التلفاز فقط؛ يبحث التطبيق عن الرابط ويفتح واجهة UrTV. سيظل الرمز المؤقت وموافقة التلفاز مطلوبين.",
+                        "UrTV must be installed on the TV with Phone control started. Enter the TV IP only; the app finds the link and opens UrTV's remote. Its temporary code and TV approval are still required."
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                OutlinedTextField(
+                    value = state.urtvHost,
+                    onValueChange = onUrTvHost,
+                    label = { Text("IP") },
+                    placeholder = { Text("192.168.1.20") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+                Button(
+                    onClick = onConnectUrTv,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = state.urtvHost.isNotBlank() && !state.urtvConnecting
+                ) {
+                    if (state.urtvConnecting) {
+                        CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                        Spacer(Modifier.width(8.dp))
+                    }
+                    Text(if (state.urtvConnecting) loc(ar, "جارٍ البحث…", "Searching…") else loc(ar, "بحث وفتح ريموت UrTV", "Find and open UrTV remote"))
+                }
+                state.urtvError?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
             }
         }
         if (state.paired == null && state.devices.isEmpty()) Text(loc(ar, "لا توجد أجهزة مكتشفة حالياً.", "No devices discovered yet."), color = MaterialTheme.colorScheme.onSurfaceVariant)
