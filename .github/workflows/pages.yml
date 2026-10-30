@@ -29,10 +29,12 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Add Android SDK tools to PATH
+        run: echo "$ANDROID_HOME/cmdline-tools/16.0/bin" >> "$GITHUB_PATH"
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" --licenses
       - name: Install Android 37 platform
-        run: sdkmanager "platforms;android-37"
+        run: "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager" "platforms;android-37"
       - name: Build phone controller APK
         working-directory: ReceiverControlAndroid
         run: ./gradlew :controller:assembleDebug
